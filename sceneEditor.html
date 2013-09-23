@@ -1,0 +1,232 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Editor de escenarios</title>
+		<link rel="stylesheet" href="css/jquery-ui.css">
+		<link rel="stylesheet" href="css/jquery.contextMenu.css">
+		<link rel="stylesheet" href="css/sceneEditor.css">
+		<link rel="stylesheet" href="css/shCoreDefault.css">
+	</head>
+	<body>
+		<div id="tabs">
+			<ul>
+				<li><a href="#editionBoardContainer">Panel principal</a></li>
+				<li><a href="#textureImagesContainer">Materiales/Texturas</a></li>
+				<li><a href="#generatedCodeViewContainer" onclick="displayGeneratedCode();">Código generado</a>
+				<li><a href="#instructions">Instrucciones de uso</a></li>
+			</ul>
+			<div id="editionBoardContainer">
+				<div id="initialConfiguration">
+					<form name="initialConfigurationForm" id="initialConfigurationForm" class="initialConfigurationForm">
+						<label for="initialColumnField" class="labelBlock">Columnas</label>
+						<input type="number" class="inputBlock" name="initialConfigurationColumnField" id="initialConfigurationColumnField" min=1 value=10>
+						<label for="initialConfigurationRowField" class="labelBlock">Filas</label>
+						<input type="number" class="inputBlock" name="initialConfigurationRowField" id="initialConfigurationRowField" min=1 value=10>
+						<fieldset id="initialConfigurationFieldset">
+							<input type="button" class="customButton" name="initButton" id="initButton" value="Iniciar" onclick="initializeSceneEditor();">
+							<input type="button" class="customButton" name="cleanButton" id="cleanButton" value="Limpiar" onclick="cleanSceneEditor();" disabled>
+						</fieldset>
+					</form>
+				</div>		
+				<div id="boardContainerWithNumberReference" class="boardContainerWithNumberReference">
+					<div id="topBoardColumnIndexNumbersContainer"></div>
+					<div id="leftBoardRowIndexNumbersContainer"></div>
+					<div id="boardContainer" class="boardContainer"></div>
+					<div id="rightBoardRowIndexNumbersContainer"></div>
+					<div id="bottomBoardColumnIndexNumbersContainer"></div>
+				</div>
+				<div id="editionContainer"></div>
+			</div>
+			<div id="generatedCodeViewContainer">
+				<p style="color:white">Por el momento, el juego solo acepta escenarios XML. Se pueden visualizar ambos formatos, pero solo se podrá exportar XML.</p>
+				<form id="text-options" class="saveFileForm">
+					<input id="scene-filename" class="filename" type="text" placeholder="nombre archivo">
+					<label class="fileType">.xml</label>
+					<input type="button" class="customButton saveFileButton" value="Guardar escenario" onclick="saveGeneratedSceneFile()">
+				</form>
+				<h1 style="color:white">XML</h1>
+				<div id="generatedXMLCode"></div>
+				<h1 style="color:white">JSON</h1>
+				<div id="generatedJSONCode"></div> 
+			</div>
+			<div id="textureImagesContainer">
+				<h1 style="color:white">Materiales/Texturas</h1>
+				<p style="color:white">
+					Cada textura tiene asociado un coeficiente de rozamiento, estos coeficientes son configurables y dicho archivo, llamado <span style="font-weight:bold">"materiales.xml"</span>,<br>
+					se encuentra en <span style="font-weight:bold">"AlumnoEjemplos\AlumnoMedia\THE_BIG_BUG_THEORY\Textures"</span>
+				</p>
+				<h2 style="color:white">Marmol</h2>
+				<img src="css/images/textures/marmol.jpg" alt="marmol" width="200" height="200">
+				<h2 style="color:white">Metal</h2>
+				<img src="css/images/textures/metal.jpg" alt="metal" width="200" height="200">
+				<h2 style="color:white">Egypt</h2>
+				<img src="css/images/textures/egypt.jpg" alt="egypt" width="200" height="200">
+				<h2 style="color:white">Madera</h2>
+				<img src="css/images/textures/madera.jpg" alt="madera" width="200" height="200">
+				<h2 style="color:white">Chess 1</h2>
+				<img src="css/images/textures/chess1.jpg" alt="chess1" width="200" height="200">
+				<h2 style="color:white">Chess 2</h2>
+				<img src="css/images/textures/chess2.png" alt="chess2" width="200" height="200">
+				<h2 style="color:white">Thron 1</h2>
+				<img src="css/images/textures/thron1.jpg" alt="thron1" width="200" height="200">
+				<h2 style="color:white">Thron 2</h2>
+				<img src="css/images/textures/thron2.jpg" alt="thron2" width="200" height="200">
+				<h2 style="color:white">Thron 3</h2>
+				<img src="css/images/textures/thron3.jpg" alt="thron3" width="200" height="200">
+			</div>
+			<div id="instructions">
+				<h1 style="color:white">Guía Rápida</h1>
+				<h2 style="color:white">Solapa: Panel principal</h2>
+				<p style="color:white">
+					Para iniciar el editor se deberá elegir una cantidad de filas y columnas y luego presionar el botón "Iniciar".<br>
+					Para resetear toda la aplicación, persionar el botón "limpiar".<br><br>
+					Una vez desplegado el tablero, hacer click derecho sobre el mismo. Se desplegará un menú contextual con opciones:
+				</p>
+				<ul style="color:white">
+					<li>
+						<span style="font-weight:bold">Nuevo elemento del escenario:</span> Se podrá crear un "Cubo" o un "Rampa".
+					</li>
+					<li>
+						<span style="font-weight:bold">Borrar elemento del escenario:</span> Se podrá borrar un elemento del escenario. Se deberá ingresar la fila y columna del vertice superior izquierdo del elemento a borrar.<br>
+						Los únicos elementos que no se podrán borrar por este medio son los de inicio y fin del juego.
+					</li>
+					<li>
+						<span style="font-weight:bold">Posición inicial y final:</span> Se ingresarán las posiciones de inicio y fin del juego.
+					</li>
+					<li>
+						<span style="font-weight:bold">Borrar Todo:</span> Eliminará todos los elementos dibujados sobre el tablero.
+					</li>
+				</ul>
+				<p style="color:white">Primero deberá especificarse la posición inicial y final del juego. Luego se habilitará la opción para crear "Cubos" o "Rampas"<br>
+					Ya sea tanto para crear un cubo o rampa se deberán especificar las posiciones de inicio y fin. Para ello se deberá indicar una fila y culumna de inicio <br>
+					y una fila y columna de fin. Con ambos datos se detertinará la extensión del elemento.<br><br>
+					<span style="font-weight:bold">Cubo</span><br>
+					Al momento de crear el cubo se podrá optar por agregar una bola enemiga. Esta bola se ubicará apoyada en el centro de la cara superior de cubo.<br>
+					La bola perseguirá a la bola principal siempre y cuando la distancia entre ellas esté dentro de un rango determinado.<br><br>
+					<span style="font-weight:bold">Rampa</span><br>
+					Al momento de crear una rampa se debe especificar una altura maxima y una altura minima, la diferencia entre ellas determinará la pendiente de la rampa.<br>
+					Para poder determinar la orientación de la rampa se utilizaron los siguientes simbolos, cada símbolo especifica hacia donde descenderá la rampa:
+				</p>
+				<ul style="color:white">
+					<li>►: Indica que la rampa descenderá hacia la derecha</li>
+					<li>▼: Indica que la rampa descenderá hacia abajo</li>
+					<li>◄: Indica que la rampa descenderá hacia la izquierda</li>
+					<li>▲: Indica que la rampa descenderá hacia arriba</li>
+				</ul>
+				
+				<h2 style="color:white">Solapa: Materiales/Texturas</h2>
+				<p style="color:white">
+					En esta solapa, se podrán visualizar cuál es el aspecto de las texturas disponibles.<br>
+					Las únicas texturas que son fijas y no se pueden elegir para utilizar en los elementos del escenario son las texturas "Inicio" y "Fin".<br>
+					Es decir, que tanto las posición de inicio como la de fin, poseen su propia textura ya predefinida para poder distinguirlas.<br>
+					Cada textura tiene asociado un coeficiente de rozamiento, estos coeficientes son configurables y dicho archivo,<br>
+					llamado <span style="font-weight:bold">"materiales.xml"</span>, se encuentra en <span style="font-weight:bold">"AlumnoEjemplos\AlumnoMedia\THE_BIG_BUG_THEORY\Textures"</span>
+				<h2 style="color:white">Solapa: Código generado</h2>
+				<p style="color:white">
+					En esta solapa, se podrá visualizar el código del escenario que leerá el juego.<br>
+					La aplicación genera el escenario tanto en formato JSON como XML, aunque por el momento el juego sólo entiende el formato XML.<br>
+					Una vez finalizada la creación del escenario se podrá exportar.<br>
+					Para q el escenario pueda ser elegida al inicio del juego, esta debe ser guardada en la carpeta <span style="font-weight:bold">"AlumnoEjemplos\AlumnoMedia\THE_BIG_BUG_THEORY\Scenes"</span><br><br>
+				</p>		
+			</div>
+			<div id="initialAndFinalPosition-form" class="dialog-form" title="Posición Inicio y fin del juego">
+				<p class="validateTips"></p>
+				<form name="initialAndFinalPositionForm">
+					<fieldset>
+						<legend>Inicio del juego</legend>
+						<label for="startingGameColumnField" class="labelBlock">Columna</label>
+						<input type="number" id="startingGameColumnField" name="startingGameColumnField" class="text ui-widget-content ui-corner-all inputBlock" min=0>
+						<label for="startingGameRowField" class="labelBlock">Fila</label>
+						<input type="number" id="startingGameRowField" name="startingGameRowField" class="text ui-widget-content ui-corner-all inputBlock" min=0>
+						<label for="hightCubeField-startingGame" class="labelBlock">Altura</label>
+						<input type="number" class="text ui-widget-content ui-corner-all inputBlock" name="hightCubeField-startingGame" id="hightCubeField-startingGame" min=1>
+					</fieldset>
+					<fieldset>
+						<legend>Fin del juego</legend>
+						<label for="endingGameColumnField" class="labelBlock">Columna</label>
+						<input type="number" id="endingGameColumnField" name="endingGameColumnField" min=0 class="text ui-widget-content ui-corner-all inputBlock" >
+						<label for="endingGameRowField" class="labelBlock">Fila</label>
+						<input type="number" id="endingGameRowField" name="endingGameRowField" class="text ui-widget-content ui-corner-all inputBlock" min=0>
+						<label for="hightCubeField-endingGame" class="labelBlock">Altura</label>
+						<input type="number" class="text ui-widget-content ui-corner-all inputBlock" name="hightCubeField-endingGame" id="hightCubeField-endingGame" min=1>
+					</fieldset>
+				</form>	
+			</div>
+			<div id="deleteElement-form" class="dialog-form" title="Borrar elemento del escenario">
+				<p>Ingresar fila y columna del vertice superior izquierdo<p>
+				<p class="validateTips"></p>
+				<form name="deleteElementForm">
+					<label for="startingDeleteColumnField" class="labelBlock">Columna inicial</label>
+					<input type="number" id="startingDeleteColumnField" name="startingDeleteColumnField" class="text ui-widget-content ui-corner-all inputBlock" min=0>
+					<label for="startingDeleteRowField" class="labelBlock">Fila inicial</label>
+					<input type="number" id="startingDeleteRowField" name="startingDeleteRowField" class="text ui-widget-content ui-corner-all inputBlock" min=0>
+				</form>	
+			</div>    		
+			<div id="newElement-form" class="dialog-form" title="Nuevo elemento">
+				<p class="validateTips"></p>
+				<form name="elementCreationForm">
+					<fieldset>
+						<legend>Posición inicial</legend>
+						<label for="initialColumnField" class="labelBlock">Columna</label>
+						<input type="number" id="initialColumnField" name="initialColumnField" class="text ui-widget-content ui-corner-all inputBlock" min=0>
+						<label for="initialRowField" class="labelBlock">Fila</label>
+						<input type="number" id="initialRowField" name="initialRowField" class="text ui-widget-content ui-corner-all inputBlock" min=0>
+					</fieldset>
+					<fieldset>
+						<legend>Posición final</legend>
+						<label for="targetColumnField" class="labelBlock">Columna</label>
+						<input type="number" id="targetColumnField" name="targetColumnField" min=0 class="text ui-widget-content ui-corner-all inputBlock">
+						<label for="targetRowField" class="labelBlock">Fila</label>
+						<input type="number" id="targetRowField" name="targetRowField" class="text ui-widget-content ui-corner-all inputBlock" min=0>
+					</fieldset>
+					<label for="selectingTexture" class="selectingTexture labelBlock">Material</label>
+					<select name="selectingTexture" id="selectingTexture"></select>
+					<div id="objectSceneTypeRadioButtons">
+						<label class="sceneObjectType-formElements labelBlock">Tipo de objeto</label>
+						<input type="radio" id="rectType" name="sceneObjectType" value="rectType" checked="checked" />
+						<label for="rectType">Cubo</label>
+						<input type="radio" id="rampType" name="sceneObjectType" value="rampType" />
+						<label for="rampType">Rampa</label>
+					</div>
+					<div id="rectForm">
+						<label for="hightCubeField" class="labelBlock">Altura</label>
+						<input type="number" class="inputBlock" name="hightCubeField" id="hightCubeField" min=1>
+						<label for="hightCubeField" class="labelBlock">Agregar bola enemiga</label>
+						<input type="checkbox" class="inputBlock" name="bolaEnemigaCheckBox" id="bolaEnemigaCheckBox">
+					</div>
+					<div id="rampForm">
+						<div id="rampOrientationRadioButtons">
+							<label class="sceneObjectType-formElements labelBlock">Orientación rampa</label>
+							<input type="radio" id="descendingRight" name="rampOrientation" value="descendingRight" checked="checked" />
+							<label for="descendingRight">►</label>
+							<input type="radio" id="descendingDown" name="rampOrientation" value="descendingDown" />
+							<label for="descendingDown">▼</label>
+							<input type="radio" id="descendingLeft" name="rampOrientation" value="descendingLeft" />
+							<label for="descendingLeft">◄</label>
+							<input type="radio" id="descendingUp" name="rampOrientation" value="descendingUp" />
+							<label for="descendingUp">▲</label>
+						</div>
+						<label for="maxHightRampField" class="labelBlock">Altura máxima</label>
+						<input class="sceneObjectType-formElements inputBlock" type="number" name="maxHightRampField" id="maxHightRampField" min=1>
+						<label for="minHightRampField" class="labelBlock">Altura mínima</label>
+						<input class="sceneObjectType-formElements inputBlock" type="number" name="minHightRampField" id="minHightRampField" min=1>
+					</div>
+				</form>
+			</div>
+		</div>
+		<footer>Editor de escenarios</footer>	
+		<script src="js/fileSaver.min.js"></script>	
+		<script src="js/shCore.js"></script>
+		<script src="js/shBrushXml.js"></script>
+		<script src="js/shBrushJScript.js"></script>
+		<script src="js/jquery-1.9.1.min.js"></script>
+		<script src="js/jquery-ui.min.js"></script>
+		<script src="js/sceneEditor.js"></script>
+		<script src="js/kinetic-v4.5.1.min.js"></script>
+		<script src="js/underscore-min.js"></script>
+		<script src="js/jquery.contextMenu.js"></script>
+		<script src="js/jquery.ui.position.js"></script>
+		<script src="js/xml2json.js"></script>
+	</body>	
+</html>

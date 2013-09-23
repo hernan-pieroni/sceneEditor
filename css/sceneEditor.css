@@ -1,0 +1,168 @@
+footer {
+    border: 1px solid #d0d2d5;
+    border-bottom: 1px solid #bebfc2;
+    background-color: #dedfe0;
+    background: linear-gradient(to bottom, #ebeced, #bebebe);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 20px;
+    min-width: 100%;
+    text-align: center;
+    font: 18px Verdana, "Droid Sans", Arial, "Helvetica Neue", "Lucida Grande", sans-serif;
+    font-weight: bold;
+    text-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+    color: #274774;
+    clear: both;
+}
+body {
+    background-image:url("images/sceneEditorBackground.jpg");
+    margin: 0;
+    font-size: 62.5%;
+}
+.saveFileForm {
+    margin-top: 30px;
+}
+.saveFileButton {
+    float: none !important;
+    display:block;
+    margin-bottom: 40px;
+}
+form.initialConfigurationForm {
+    background-color: #f8f8f8;
+    background: linear-gradient(to top, #fff, #f8f8f8);
+    border: 1px solid #d0d2d5;
+    border-bottom: 1px solid #bebfc2;
+    border-radius: 4px;
+    padding: 20px;
+    width: 212px;
+    height: 100%;
+}
+label {
+    color: #404853;
+    font-weight: bold;
+}
+.labelBlock {
+    display: block;
+}
+.inputBlock {
+    display: block;
+}
+.fileType {
+    color: rgb(250, 250, 250);
+}
+input, select {
+    background: #fff;
+    border: 1px solid #c6c9cc;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1), 0 1px 0 #fff;
+    color: #555;
+    font: 13px/20px Verdana, "Droid Sans", Arial, "Helvetica Neue", "Lucida Grande", sans-serif;
+    margin: 0 0 10px 0;
+    padding: 5px;
+    width: 200px;
+}
+input:disabled {
+    background:#dddddd;
+}
+input.text {
+    margin-bottom:12px;
+    width:95%;
+    padding: .4em;
+}
+fieldset#initialConfigurationFieldset {
+    background: linear-gradient(to top, #ebeced, #bebebe);
+    border: none;
+    border-top: 1px solid #d0d2d5;
+    border-radius: 0 0 4px 4px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+    margin: 5px 0 -20px -20px;
+    padding: 18px 20px;
+    width: 212px
+}
+.customButton {
+    background: linear-gradient(to top right, #4C8BE2, #274774);
+    border: none;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.75);
+    color: #fff;
+    font-weight: bold;
+    float: left;
+    padding: 5px 10px;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.6);
+}
+.customButton:active {
+    background: #333942;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.75), 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+.customButton:hover {
+    background: #274774;
+}
+div.boardContainerWithNumberReference {
+    display:inline-block;
+    margin-left: 30px;
+    margin-bottom: 20px;
+    margin-right: 0px;
+    margin-top: 25px;
+}
+div#boardContainer {
+    display:inline-block
+}
+div#editionBoardContainer {
+    white-space: nowrap;
+    margin: 0 0 0 0;
+    height: 100%;
+    width: 100%;
+    padding-bottom: 25px;
+}
+div#initialConfiguration {
+    float:left;
+    margin: 50px 0 20px 0;
+    width: 254px;
+}
+div#leftBoardRowIndexNumbersContainer, div#rightBoardRowIndexNumbersContainer {
+    display:inline-block
+}
+div#topBoardColumnIndexNumbersContainer, div#bottomBoardColumnIndexNumbersContainer {
+    margin-left:15px;
+}
+div#tabs {
+    background: none;
+    padding: 0;
+    border: 0;
+    width: 100%;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    font:12px Verdana, "Droid Sans", Arial, "Helvetica Neue", "Lucida Grande", sans-serif;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.15);
+}
+.sceneObjectType-formElements, .selectingTexture {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+#objectSceneTypeRadioButtons, #rampOrientationRadioButtons {
+    margin-bottom: 5px;
+    margin-bottom: 10px;
+}
+div#users-contain {
+    width: 280px;
+    margin: 20px 0;
+}
+div#users-contain table {
+    margin: 1em 0;
+    border-collapse: collapse;
+    width: 100%;
+}
+div#users-contain table td, div#users-contain table th {
+    border: 1px solid #eee;
+    padding: .6em 10px;
+    text-align: left;
+}
+.ui-dialog .ui-state-error {
+    padding: .3em;
+}
+.validateTips {
+    border: 1px solid transparent;
+    padding: 0.3em;
+}
